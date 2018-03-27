@@ -1,7 +1,7 @@
 # Личный проект «Пиксель хантер» [![Build status][travis-image]][travis-url]
 
 * Студент: [Анастасия Млеко](https://up.htmlacademy.ru/ecmascript/4/user/224948).
-* Наставник: `Неизвестно`.
+* Наставник: [Леонид Лебедев](https://htmlacademy.ru/profile/leonidlebedev).
 
 ---
 

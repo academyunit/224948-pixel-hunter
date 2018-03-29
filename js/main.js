@@ -1,41 +1,52 @@
-const mainCentral = document.querySelector(`.central`);
+const INITIAL_FRAME_NUMBER = 0;
+const keyCodes = {
+  LEFT_ARROW: 37,
+  RIGHT_ARROW: 39
+};
+
+let currentFrameNumber = INITIAL_FRAME_NUMBER;
+const body = document.querySelector(`body`);
 const frames = document.querySelectorAll(`template`);
-let frameNumber = 0;
+
+const removeChildren = (node) => {
+  while (node.firstChild) {
+    node.removeChild(node.firstChild);
+  }
+};
 
 const getFrameByNumber = (i) => {
   return frames[i].content.cloneNode(true);
 };
 
 const renderFrame = (frame) => {
-  while (mainCentral.firstChild) {
-    mainCentral.removeChild(mainCentral.firstChild);
-  }
+  const mainCentral = document.querySelector(`.central`);
+  removeChildren(mainCentral);
   mainCentral.appendChild(frame);
 };
 
 const showNextTemplate = () => {
-  if (frameNumber < frames.length - 1) {
-    frameNumber++;
-    renderFrame(getFrameByNumber(frameNumber));
+  if (currentFrameNumber < frames.length - 1) {
+    currentFrameNumber++;
+    renderFrame(getFrameByNumber(currentFrameNumber));
   }
 };
 
 const showPrevTemplate = () => {
-  if (frameNumber > 0) {
-    frameNumber--;
-    renderFrame(getFrameByNumber(frameNumber));
+  if (currentFrameNumber > 0) {
+    currentFrameNumber--;
+    renderFrame(getFrameByNumber(currentFrameNumber));
   }
 };
 
-renderFrame(getFrameByNumber(0));
-
-document.onkeydown = (evt) => {
-  evt = evt || window.event;
-  if (evt.altKey) {
-    if (evt.key === `ArrowLeft`) {
-      showPrevTemplate();
-    } else if (evt.key === `ArrowRight`) {
-      showNextTemplate();
-    }
+body.addEventListener(`keydown`, (event) => {
+  if (!event.altKey) {
+    return;
+  } else if (event.keyCode === keyCodes.LEFT_ARROW) {
+    showPrevTemplate();
+  } else if (event.keyCode === keyCodes.RIGHT_ARROW) {
+    showNextTemplate();
   }
-};
+});
+
+
+renderFrame(getFrameByNumber(currentFrameNumber));

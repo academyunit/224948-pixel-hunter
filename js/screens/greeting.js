@@ -1,9 +1,10 @@
-import getElementFromHtmlString from './element';
-import renderRulesElement from './rules';
-import renderElement from './render';
+import getDomElementFromHtmlString from '../utils/getDomElementFromHtmlString';
+import render from '../utils/render';
+import {renderScreen as renderRulesScreen} from './rules';
 
-const greetingElement = getElementFromHtmlString(`<div>
-<div class="greeting central--blur">
+const domElement = getDomElementFromHtmlString(`
+<div>
+  <div class="greeting central--blur">
     <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>
     <h1 class="greeting__asterisk">*</h1>
     <div class="greeting__challenge">
@@ -26,10 +27,11 @@ const greetingElement = getElementFromHtmlString(`<div>
       <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
     </div>
   </footer>
-</div>`);
+</div>
+`);
 
-export default () => {
-  const renderedElement = renderElement(greetingElement);
-  const nextButton = renderedElement.querySelector(`.greeting__continue`);
-  nextButton.addEventListener(`click`, () => renderRulesElement());
+export const renderScreen = () => {
+  const renderedScreen = render(domElement);
+  const nextButton = renderedScreen.querySelector(`.greeting__continue`);
+  nextButton.addEventListener(`click`, renderRulesScreen);
 };

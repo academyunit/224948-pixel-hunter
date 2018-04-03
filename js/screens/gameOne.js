@@ -1,9 +1,10 @@
-import getElementFromHtmlString from './element';
-import renderElement from './render';
-import renderGameOneElement from './game-1';
-import renderGameThreeElement from './game-3';
+import getDomElementFromHtmlString from '../utils/getDomElementFromHtmlString';
+import render from '../utils/render';
+import {renderScreen as renderGameTwoScreen} from './gameTwo';
+import addBackButtonAction from '../utils/addBackButtonAction';
 
-const gameTwoElement = getElementFromHtmlString(`<div>
+const domElement = getDomElementFromHtmlString(`
+<div>
   <header class="header">
     <div class="header__back">
       <button class="back">
@@ -19,16 +20,27 @@ const gameTwoElement = getElementFromHtmlString(`<div>
     </div>
   </header>
   <div class="game">
-    <p class="game__task">Угадай, фото или рисунок?</p>
-    <form class="game__content  game__content--wide">
+    <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
+    <form class="game__content">
       <div class="game__option">
-        <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
-        <label class="game__answer  game__answer--photo">
+        <img src="http://placehold.it/468x458" alt="Option 1" width="468" height="458">
+        <label class="game__answer game__answer--photo">
           <input name="question1" type="radio" value="photo">
           <span>Фото</span>
         </label>
-        <label class="game__answer  game__answer--wide  game__answer--paint">
+        <label class="game__answer game__answer--paint">
           <input name="question1" type="radio" value="paint">
+          <span>Рисунок</span>
+        </label>
+      </div>
+      <div class="game__option">
+        <img src="http://placehold.it/468x458" alt="Option 2" width="468" height="458">
+        <label class="game__answer  game__answer--photo">
+          <input name="question2" type="radio" value="photo">
+          <span>Фото</span>
+        </label>
+        <label class="game__answer  game__answer--paint">
+          <input name="question2" type="radio" value="paint">
           <span>Рисунок</span>
         </label>
       </div>
@@ -39,11 +51,11 @@ const gameTwoElement = getElementFromHtmlString(`<div>
         <li class="stats__result stats__result--slow"></li>
         <li class="stats__result stats__result--fast"></li>
         <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
         <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
         <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
+        <li class="stats__result stats__result--unknown"></li>
+        <li class="stats__result stats__result--unknown"></li>
+        <li class="stats__result stats__result--unknown"></li>
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
@@ -58,13 +70,30 @@ const gameTwoElement = getElementFromHtmlString(`<div>
       <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
     </div>
   </footer>
-</div>`);
+</div>
+`);
 
-
-export default () => {
-  const renderedElement = renderElement(gameTwoElement);
-  const backButton = renderedElement.querySelector(`.back`);
-  const nextButtons = renderedElement.querySelectorAll(`.game__answer`);
-  backButton.addEventListener(`click`, () => renderGameOneElement());
-  nextButtons.forEach((button) => button.addEventListener(`click`, () => renderGameThreeElement()));
+export const renderScreen = () => {
+  const renderedScreen = render(domElement);
+  const answers1 = renderedScreen.querySelectorAll(`input[name="question1"]`);
+  const answers2 = renderedScreen.querySelectorAll(`input[name="question2"]`);
+  let isQuestion1Answered = false;
+  let isQuestion2Answered = false;
+  addBackButtonAction(renderedScreen);
+  const form = renderedScreen.querySelector(`.game__content`);
+  form.addEventListener(`click`, () => {
+    answers1.forEach((answer1) => {
+      if (answer1.checked) {
+        isQuestion1Answered = true;
+      }
+    });
+    answers2.forEach((answer2) => {
+      if (answer2.checked) {
+        isQuestion2Answered = true;
+      }
+    });
+    if (isQuestion1Answered && isQuestion2Answered) {
+      renderGameTwoScreen();
+    }
+  });
 };

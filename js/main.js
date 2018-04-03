@@ -1,4 +1,3 @@
-import introElement from './intro';
-import renderElement from './render';
+import {renderScreen as renderIntroScreen} from './screens/intro';
 
-renderElement(introElement);
+renderIntroScreen();

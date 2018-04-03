@@ -1,9 +1,10 @@
-import getElementFromHtmlString from './element';
-import renderElement from './render';
-import renderGameTwoElement from './game-2';
-import renderStatsElement from './stats';
+import getDomElementFromHtmlString from '../utils/getDomElementFromHtmlString';
+import render from '../utils/render';
+import addBackButtonAction from '../utils/addBackButtonAction';
+import {renderScreen as renderGameThreeScreen} from './gameThree';
 
-const gameThreeElement = getElementFromHtmlString(`<div>
+const domElement = getDomElementFromHtmlString(`
+<div>
   <header class="header">
     <div class="header__back">
       <button class="back">
@@ -19,16 +20,18 @@ const gameThreeElement = getElementFromHtmlString(`<div>
     </div>
   </header>
   <div class="game">
-    <p class="game__task">Найдите рисунок среди изображений</p>
-    <form class="game__content  game__content--triple">
+    <p class="game__task">Угадай, фото или рисунок?</p>
+    <form class="game__content  game__content--wide">
       <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
-      <div class="game__option  game__option--selected">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
-      <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
+        <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
+        <label class="game__answer  game__answer--photo">
+          <input name="question1" type="radio" value="photo">
+          <span>Фото</span>
+        </label>
+        <label class="game__answer  game__answer--wide  game__answer--paint">
+          <input name="question1" type="radio" value="paint">
+          <span>Рисунок</span>
+        </label>
       </div>
     </form>
     <div class="stats">
@@ -56,12 +59,19 @@ const gameThreeElement = getElementFromHtmlString(`<div>
       <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
     </div>
   </footer>
-</div>`);
+</div>
+`);
 
-export default () => {
-  const renderedElement = renderElement(gameThreeElement);
-  const backButton = renderedElement.querySelector(`.back`);
-  const nextButtons = renderedElement.querySelectorAll(`.game__option`);
-  backButton.addEventListener(`click`, () => renderGameTwoElement());
-  nextButtons.forEach((button) => button.addEventListener(`click`, () => renderStatsElement()));
+export const renderScreen = () => {
+  const renderedScreen = render(domElement);
+  const form = renderedScreen.querySelector(`.game__content`);
+  const answers = renderedScreen.querySelectorAll(`input[name="question1"]`);
+  addBackButtonAction(renderedScreen);
+  form.addEventListener(`click`, () => {
+    answers.forEach((answer) => {
+      if (answer.checked) {
+        renderGameThreeScreen();
+      }
+    });
+  });
 };

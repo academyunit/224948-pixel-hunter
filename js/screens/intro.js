@@ -1,7 +1,9 @@
-import getElementFromHtmlString from './element';
-import renderGreetingElement from './greeting';
+import getDomElementFromHtmlString from '../utils/getDomElementFromHtmlString';
+import render from '../utils/render';
+import {renderScreen as renderGreetingScreen} from './greeting';
 
-const introElement = getElementFromHtmlString(`<div class="central__content">
+const domElement = getDomElementFromHtmlString(`
+<div class="central__content">
     <div id="intro" class="intro">
       <h1 class="intro__asterisk">*</h1>
       <p class="intro__motto"><sup>*</sup> Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf Sparnaay.</p>
@@ -17,13 +19,11 @@ const introElement = getElementFromHtmlString(`<div class="central__content">
       <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
     </div>
   </footer>
-</div>`);
+</div>
+`);
 
-document.addEventListener(`DOMContentLoaded`, () => {
-  const nextButton = document.querySelector(`.intro__asterisk`);
-  nextButton.addEventListener(`click`, () => {
-    renderGreetingElement();
-  });
-});
-
-export default introElement;
+export const renderScreen = () => {
+  const renderedScreen = render(domElement);
+  const nextButton = renderedScreen.querySelector(`.intro__asterisk`);
+  nextButton.addEventListener(`click`, renderGreetingScreen);
+};

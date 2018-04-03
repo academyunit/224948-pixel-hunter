@@ -29,7 +29,5 @@
   "engines": {
     "node": "6.11.3"
   },
-  "dependencies": {
-    "ajv": "^6.4.0"
-  }
+  "dependencies": {}
 }

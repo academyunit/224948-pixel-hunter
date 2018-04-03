@@ -1,8 +1,9 @@
-import getElementFromHtmlString from './element';
-import renderElement from './render';
-import renderGameThreeElement from './game-3';
+import getElementFromHtmlString from '../utils/getDomElementFromHtmlString';
+import render from '../utils/render';
+import addBackButtonAction from '../utils/addBackButtonAction';
 
-const statsElement = getElementFromHtmlString(`<div>
+const domElement = getElementFromHtmlString(`
+<div>
   <header class="header">
     <div class="header__back">
       <button class="back">
@@ -121,10 +122,10 @@ const statsElement = getElementFromHtmlString(`<div>
       <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
     </div>
   </footer>
-</div>`);
+</div>
+`);
 
-export default () => {
-  const renderedElement = renderElement(statsElement);
-  const backButton = renderedElement.querySelector(`.back`);
-  backButton.addEventListener(`click`, () => renderGameThreeElement());
+export const renderScreen = () => {
+  const renderedScreen = render(domElement);
+  addBackButtonAction(renderedScreen);
 };

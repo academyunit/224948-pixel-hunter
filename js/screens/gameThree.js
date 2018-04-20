@@ -20,9 +20,9 @@ export const renderGameThree = (state) => {
   cleanScreen();
   const header = render(getDomElementFromTemplate(headerTemplate(state)));
   const renderedScreen = render(
-    getDomElementFromTemplate(
-      gameContentTemplate(games[gameTypes.GAME_THREE], gameThreeData)
-    )
+      getDomElementFromTemplate(
+          gameContentTemplate(games[gameTypes.GAME_THREE], gameThreeData)
+      )
   );
   render(getDomElementFromTemplate(statsTemplate(state)));
   render(getDomElementFromTemplate(footerTemplate));

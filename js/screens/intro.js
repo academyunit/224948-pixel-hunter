@@ -1,29 +1,20 @@
-import getDomElementFromHtmlString from '../utils/getDomElementFromHtmlString';
-import render from '../utils/render';
+import {render} from '../utils/render';
 import {renderScreen as renderGreetingScreen} from './greeting';
+import {footerTemplate} from '../templates/footer';
+import {getDomElementFromTemplate} from '../utils/getDomElementFromTemplate';
 
-const domElement = getDomElementFromHtmlString(`
+const introTemplate = `
 <div class="central__content">
-    <div id="intro" class="intro">
-      <h1 class="intro__asterisk">*</h1>
-      <p class="intro__motto"><sup>*</sup> Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf Sparnaay.</p>
-    </div>
+  <div id="intro" class="intro">
+    <h1 class="intro__asterisk">*</h1>
+    <p class="intro__motto"><sup>*</sup> Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf Sparnaay.</p>
   </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>
 </div>
-`);
+`;
 
 export const renderScreen = () => {
-  const renderedScreen = render(domElement);
+  const renderedScreen = render(getDomElementFromTemplate(introTemplate));
+  render(getDomElementFromTemplate(footerTemplate));
   const nextButton = renderedScreen.querySelector(`.intro__asterisk`);
   nextButton.addEventListener(`click`, renderGreetingScreen);
 };

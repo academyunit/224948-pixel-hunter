@@ -1,77 +1,60 @@
-import getDomElementFromHtmlString from '../utils/getDomElementFromHtmlString';
-import render from '../utils/render';
+import {cleanScreen, render} from '../utils/render';
 import addBackButtonAction from '../utils/addBackButtonAction';
-import {renderScreen as renderGameThreeScreen} from './gameThree';
+import {footerTemplate} from '../templates/footer';
+import {headerTemplate} from '../templates/header';
+import {games, gameTypes} from '../data/data';
+import {statsTemplate} from '../templates/stats';
+import {gameContentTemplate, buttonsTemplate} from '../templates/game';
+import {renderNextGame} from '../utils/renderGameScreen';
+import {getDomElementFromTemplate} from '../utils/getDomElementFromTemplate';
 
-const domElement = getDomElementFromHtmlString(`
-<div>
-  <header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
-  <div class="game">
-    <p class="game__task">Угадай, фото или рисунок?</p>
-    <form class="game__content  game__content--wide">
-      <div class="game__option">
-        <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
-        <label class="game__answer  game__answer--photo">
-          <input name="question1" type="radio" value="photo">
-          <span>Фото</span>
-        </label>
-        <label class="game__answer  game__answer--wide  game__answer--paint">
-          <input name="question1" type="radio" value="paint">
-          <span>Рисунок</span>
-        </label>
-      </div>
-    </form>
-    <div class="stats">
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
-    </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>
-</div>
-`);
+export const gameTwoData = {
+  image: {
+    width: 468,
+    height: 458
+  },
+  getButtons(i) {
+    return buttonsTemplate(``, i);
+  }
+};
 
-export const renderScreen = () => {
-  const renderedScreen = render(domElement);
+export const renderGameTwo = (state) => {
+  cleanScreen();
+  const header = render(getDomElementFromTemplate(headerTemplate(state)));
+  const renderedScreen = render(getDomElementFromTemplate(gameContentTemplate(games[gameTypes.GAME_TWO], gameTwoData)));
+  render(getDomElementFromTemplate(statsTemplate(state)));
+  render(getDomElementFromTemplate(footerTemplate));
+  addBackButtonAction(header);
+
+  const answers1 = renderedScreen.querySelectorAll(`input[name="question1"]`);
+  const answers2 = renderedScreen.querySelectorAll(`input[name="question2"]`);
+  let isQuestion1Answered = false;
+  let isQuestion2Answered = false;
   const form = renderedScreen.querySelector(`.game__content`);
-  const answers = renderedScreen.querySelectorAll(`input[name="question1"]`);
-  addBackButtonAction(renderedScreen);
   form.addEventListener(`click`, () => {
-    answers.forEach((answer) => {
-      if (answer.checked) {
-        renderGameThreeScreen();
+    answers1.forEach((answer1) => {
+      if (answer1.checked) {
+        isQuestion1Answered = true;
+        if (!games[gameTypes.GAME_TWO].questions[0].answers[answer1.value]) {
+          state.lives--;
+          state.setAnswer(false, state.time);
+          renderNextGame(state);
+        }
       }
     });
+    answers2.forEach((answer2) => {
+      if (answer2.checked) {
+        isQuestion2Answered = true;
+        if (!games[gameTypes.GAME_TWO].questions[1].answers[answer2.value]) {
+          state.lives--;
+          state.setAnswer(false, state.time);
+          renderNextGame(state);
+        }
+      }
+    });
+    if (isQuestion1Answered && isQuestion2Answered) {
+      state.setAnswer(true, state.time);
+      renderNextGame(state);
+    }
   });
 };

@@ -43,26 +43,26 @@ const fastAnswersResult = (state) => {
   const fastAnswersCount = state.answers.filter((answer) => answer.correct && answer.time > 20).length;
 
   return resultTemplate(statsScreenData.pointsLabels.speed,
-    fastAnswersCount,
-    scoreData.TIME_POINTS,
-    fastIconTemplate,
-    fastAnswersCount * scoreData.TIME_POINTS);
+      fastAnswersCount,
+      scoreData.TIME_POINTS,
+      fastIconTemplate,
+      fastAnswersCount * scoreData.TIME_POINTS);
 };
 
 const extraLivesResults = (state) => resultTemplate(statsScreenData.pointsLabels.lives,
-  state.lives,
-  scoreData.EXTRA_LIVE_POINTS,
-  aliveIconTemplate,
-  state.lives * scoreData.EXTRA_LIVE_POINTS);
+    state.lives,
+    scoreData.EXTRA_LIVE_POINTS,
+    aliveIconTemplate,
+    state.lives * scoreData.EXTRA_LIVE_POINTS);
 
 const slowAnswersResults = (state) => {
   const slowAnswersCount = state.answers.filter((answer) => answer.correct && answer.time < 10).length;
 
   return resultTemplate(statsScreenData.pointsLabels.tardiness,
-    slowAnswersCount,
-    scoreData.TIME_POINTS,
-    slowIconTemplate,
-    -slowAnswersCount * scoreData.TIME_POINTS);
+      slowAnswersCount,
+      scoreData.TIME_POINTS,
+      slowIconTemplate,
+      -slowAnswersCount * scoreData.TIME_POINTS);
 };
 
 const leadBlock = (state, i, answersPoints, answersCount) => `
@@ -102,18 +102,18 @@ const failTemplate = (state, i) => `
 `;
 
 const finalStatsTemplate = (state) => `<div class="result">
-  ${totalScore(state) > 0
-  ? `<h1>${statsScreenData.victoryTitle}</h1>${victoryTemplate(state, 1)}`
-  : `<h1>${statsScreenData.failTitle}</h1>${failTemplate(state, 1)}`}
-  
-  ${history.length > 0
-  ? history.map((savedState, i) => totalScore(savedState) > 0
+    ${totalScore(state) > 0
+    ? `<h1>${statsScreenData.victoryTitle}</h1>${victoryTemplate(state, 1)}`
+    : `<h1>${statsScreenData.failTitle}</h1>${failTemplate(state, 1)}`}
+    
+    ${history.length > 0
+    ? history.map((savedState, i) => totalScore(savedState) > 0
       ? `<h1>${statsScreenData.victoryTitle}</h1>
-       ${victoryTemplate(savedState, i + 2)}`
+         ${victoryTemplate(savedState, i + 2)}`
       : `<h1>${statsScreenData.failTitle}</h1>
-         ${failTemplate(savedState, i + 2)}`
+           ${failTemplate(savedState, i + 2)}`
     ).join(``)
-  : ``}
+    : ``}
 </div>`;
 
 export const renderStatsScreen = (state) => {

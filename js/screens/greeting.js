@@ -1,9 +1,8 @@
-import {cleanScreen, render} from '../utils/render';
-import {renderRulesScreen} from './rules';
-import {footerTemplate} from '../templates/footer';
+import {appendChildToMain} from '../utils/appendChildToMain';
 import {getDomElementFromTemplate} from '../utils/getDomElementFromTemplate';
+import {renderNextScreen} from '../data/game';
 
-const greetingTemplate = `
+const template = getDomElementFromTemplate(`
 <div class="greeting central--blur">
   <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>
   <h1 class="greeting__asterisk">*</h1>
@@ -17,12 +16,10 @@ const greetingTemplate = `
   </div>
   <div class="greeting__continue"><span><img src="img/arrow_right.svg" width="64" height="64" alt="Next"></span></div>
 </div>
-`;
+`);
 
 export const renderScreen = () => {
-  cleanScreen();
-  const renderedScreen = render(getDomElementFromTemplate(greetingTemplate));
-  render(getDomElementFromTemplate(footerTemplate));
+  const renderedScreen = appendChildToMain(template);
   const nextButton = renderedScreen.querySelector(`.greeting__continue`);
-  nextButton.addEventListener(`click`, renderRulesScreen);
+  nextButton.addEventListener(`click`, renderNextScreen);
 };

@@ -1,13 +1,8 @@
-import {cleanScreen, render} from '../utils/render';
-import addBackButtonAction from '../utils/addBackButtonAction';
-import {headerTemplate} from '../templates/header';
-import {footerTemplate} from '../templates/footer';
-import {initialState} from '../data/data';
-import {renderRandomGame} from '../utils/renderGameScreen';
 import {getDomElementFromTemplate} from '../utils/getDomElementFromTemplate';
+import {renderNextScreen} from '../data/game';
+import {appendChildToMain} from '../utils/appendChildToMain';
 
-
-const rulesTemplate = `
+const template = getDomElementFromTemplate(`
 <div class="rules">
   <h1 class="rules__title">Правила</h1>
   <p class="rules__description">Угадай 10 раз для каждого изображения фото <img
@@ -24,26 +19,16 @@ const rulesTemplate = `
     <button class="rules__button  continue" type="submit" disabled>Go!</button>
   </form>
 </div>
-`;
+`);
 
-export const renderRulesScreen = () => {
-  cleanScreen();
-  const newState = Object.assign({}, initialState);
-  newState.answers.length = 0;
-  const header = render(getDomElementFromTemplate(headerTemplate(newState, true)));
-  const renderedScreen = render(getDomElementFromTemplate(rulesTemplate));
-  render(getDomElementFromTemplate(footerTemplate));
-
+export const renderScreen = () => {
+  const renderedScreen = appendChildToMain(template);
   const nextButton = renderedScreen.querySelector(`.rules__button`);
   const input = renderedScreen.querySelector(`.rules__input`);
-  addBackButtonAction(header);
 
   input.addEventListener(`keyup`, (() => {
-    if (input.value === ``) {
-      nextButton.disabled = true;
-    } else {
-      nextButton.disabled = false;
-    }
+    nextButton.disabled = input.value === ``;
   }));
-  nextButton.addEventListener(`click`, renderRandomGame(newState));
+
+  nextButton.addEventListener(`click`, renderNextScreen);
 };

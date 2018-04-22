@@ -1,4 +1,6 @@
-export const footerTemplate = `
+import {getDomElementFromTemplate} from '../utils/getDomElementFromTemplate';
+
+export const footerElement = getDomElementFromTemplate(`
 <footer class="footer">
   <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
   <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
@@ -9,4 +11,4 @@ export const footerTemplate = `
     <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
   </div>
 </footer>
-`;
+`);

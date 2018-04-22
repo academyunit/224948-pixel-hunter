@@ -1,6 +1,11 @@
-import {renderScreen as renderGreetingScreen} from '../screens/greeting';
+import {render} from '../data/game';
 
-export default (renderedScreen) => {
+const renderGreeting = (game) => {
+  game.setType(`greeting`);
+  render();
+};
+
+export default (renderedScreen, game) => {
   const backButton = renderedScreen.querySelector(`.back`);
-  backButton.addEventListener(`click`, () => renderGreetingScreen());
+  backButton.addEventListener(`click`, () => renderGreeting(game));
 };

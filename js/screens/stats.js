@@ -1,131 +1,68 @@
-import getElementFromHtmlString from '../utils/getDomElementFromHtmlString';
-import render from '../utils/render';
-import addBackButtonAction from '../utils/addBackButtonAction';
+import {getDomElementFromTemplate} from '../utils/getDomElementFromTemplate';
+import {statsTemplate} from '../domElement/stats';
+import {resultsData, scoreData, answerTypes} from '../data/data';
+import {appendChildToMain} from '../utils/appendChildToMain';
 
-const domElement = getElementFromHtmlString(`
-<div>
-  <header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-  </header>
-  <div class="result">
-    <h1>Победа!</h1>
+const resultTemplate = (answersTypes, count, result) => {
+  if (count) {
+    return `<tr>
+              <td></td>
+              <td class="result__extra">${result.label}</td>
+              <td class="result__extra">${count}&nbsp;<span class="stats__result stats__result--${result.icon}"></span></td>
+              <td class="result__points">×&nbsp;${result.points}</td>
+              <td class="result__total">${count * result.points}</td>
+            </tr>`;
+  } else {
+    return ``;
+  }
+};
+
+const victoryTemplate = (i, answersTypes, livesCount, total) => {
+  const correctAnswersCount = answersTypes.filter((type) => type !== answerTypes.WRONG).length;
+  const fastAnswersCount = answersTypes.filter((answersType) => answersType === answerTypes.FAST).length;
+  const slowAnswersCount = answersTypes.filter((answersType) => answersType === answerTypes.SLOW).length;
+
+  return `<h1>${resultsData.victoryTitle}</h1>
+          <table class="result__table">
+            <tr>
+              <td class="result__number">${i}</td>
+              <td colspan="2">
+                ${statsTemplate(answersTypes)}
+              </td>
+              <td class="result__points">×&nbsp;${scoreData.CORRECT_ANSWER_POINTS}</td>
+              <td class="result__total">${correctAnswersCount * scoreData.CORRECT_ANSWER_POINTS}</td>
+            </tr>
+            
+            ${resultTemplate(answersTypes, fastAnswersCount, resultsData.fastResults)}
+            ${resultTemplate(answersTypes, livesCount, resultsData.livesResults)}
+            ${resultTemplate(answersTypes, slowAnswersCount, resultsData.slowResults)}
+            
+            <tr>
+              <td colspan="5" class="result__total  result__total--final">${total}</td>
+            </tr>
+          </table>`;
+};
+
+const failTemplate = (i, answersTypes) => `
+    <h1>${resultsData.failTitle}</h1>
     <table class="result__table">
       <tr>
-        <td class="result__number">1.</td>
+        <td class="result__number">${i}</td>
         <td colspan="2">
-          <ul class="stats">
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--correct"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--unknown"></li>
-          </ul>
-        </td>
-        <td class="result__points">×&nbsp;100</td>
-        <td class="result__total">900</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за скорость:</td>
-        <td class="result__extra">1&nbsp;<span class="stats__result stats__result--fast"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">50</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--alive"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">100</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Штраф за медлительность:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--slow"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">-100</td>
-      </tr>
-      <tr>
-        <td colspan="5" class="result__total  result__total--final">950</td>
-      </tr>
-    </table>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">2.</td>
-        <td>
-          <ul class="stats">
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--correct"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--wrong"></li>
-          </ul>
+          ${statsTemplate(answersTypes)}
         </td>
         <td class="result__total"></td>
-        <td class="result__total  result__total--final">fail</td>
+        <td class="result__total  result__total--final">${resultsData.failTitle}</td>
       </tr>
     </table>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">3.</td>
-        <td colspan="2">
-          <ul class="stats">
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--correct"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--unknown"></li>
-          </ul>
-        </td>
-        <td class="result__points">×&nbsp;100</td>
-        <td class="result__total">900</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--alive"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">100</td>
-      </tr>
-      <tr>
-        <td colspan="5" class="result__total  result__total--final">950</td>
-      </tr>
-    </table>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>
-</div>
-`);
+`;
 
-export const renderScreen = () => {
-  const renderedScreen = render(domElement);
-  addBackButtonAction(renderedScreen);
-};
+export const renderScreen = (game) => appendChildToMain(
+    getDomElementFromTemplate(`
+      <div class="result">
+          ${game.getTotal() > 0
+    ? victoryTemplate(1, game.getAnswersTypes(), game.getLives(), game.getTotal())
+    : failTemplate(1, game.getAnswersTypes())}
+      </div>`
+    )
+);

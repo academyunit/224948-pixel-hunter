@@ -1,3 +1,3 @@
-import {initGame} from './data/game';
+import {initGame} from './app';
 
 initGame();

@@ -6,7 +6,7 @@ export const answerTypes = {
   UNKNOWN: `unknow`
 };
 
-export const scoreData = {
+export const scoreDataConfig = {
   GAMES_COUNT: 10,
   EXTRA_LIVE_POINTS: 50,
   CORRECT_ANSWER_POINTS: 100,
@@ -23,21 +23,21 @@ export const resultsData = {
   fastResults: {
     type: `fast`,
     label: `Бонус за скорость:`,
-    points: scoreData.FAST_TIME_POINTS,
+    points: scoreDataConfig.FAST_TIME_POINTS,
     icon: `fast`
   },
 
   livesResults: {
     type: `lives`,
     label: `Бонус за жизни:`,
-    points: scoreData.EXTRA_LIVE_POINTS,
+    points: scoreDataConfig.EXTRA_LIVE_POINTS,
     icon: `alive`
   },
 
   slowResults: {
     type: `slow`,
     label: `Штраф за медлительность:`,
-    points: scoreData.SLOW_TIME_POINTS,
+    points: scoreDataConfig.SLOW_TIME_POINTS,
     icon: `slow`
   }
 };
@@ -52,7 +52,6 @@ export const levels = {
   },
 
   rules: {
-    isHeaderShowed: true,
     nextScreen: `game1`
   },
 
@@ -62,12 +61,11 @@ export const levels = {
     questions: [
       {
         src: `https://i.imgur.com/DiHM5Zb.jpg`,
-        correctAnswer: `photo`
+        imageWidth: 705,
+        imageHeight: 455,
+        correctAnswer: `photo`,
       }
     ],
-    isHeaderShowed: true,
-    addGameIndicators: true,
-    isStatsShowed: true,
     nextScreen: `game2`
   },
 
@@ -77,16 +75,17 @@ export const levels = {
     questions: [
       {
         src: `https://k42.kn3.net/CF42609C8.jpg`,
+        imageWidth: 468,
+        imageHeight: 458,
         correctAnswer: `paint`
       },
       {
         src: `http://i.imgur.com/1KegWPz.jpg`,
+        imageWidth: 468,
+        imageHeight: 458,
         correctAnswer: `paint`
       }
     ],
-    isHeaderShowed: true,
-    addGameIndicators: true,
-    isStatsShowed: true,
     nextScreen: `game3`
   },
 
@@ -96,24 +95,27 @@ export const levels = {
     questions: [
       {
         src: `http://i.imgur.com/DKR1HtB.jpg`,
+        imageWidth: 304,
+        imageHeight: 455,
         correctAnswer: `paint`
       },
       {
         src: `https://k42.kn3.net/D2F0370D6.jpg`,
+        imageWidth: 304,
+        imageHeight: 455,
         correctAnswer: `photo`
       },
       {
         src: `http://i.imgur.com/1KegWPz.jpg`,
+        imageWidth: 304,
+        imageHeight: 455,
         correctAnswer: `photo`
       }
     ],
-    isHeaderShowed: true,
-    addGameIndicators: true,
-    isStatsShowed: true,
     nextScreen: `game1`
   },
+
   stats: {
-    isHeaderShowed: true,
-    isStatsShowed: false
   }
 };
+

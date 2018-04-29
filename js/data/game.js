@@ -7,13 +7,18 @@ export default class Game {
     const params = Object.assign({}, Game.defaultConfig, config);
     this.lives = params.lives;
     this.timer = params.timer;
-    this.level = params.firstLevel;
+    this.gameType = params.firstGameType;
     this.total = -1;
     this.answers = [];
-    this.currentNumberGame = 0;
+    this.level = 0;
   }
 
   getLevel() {
+    return this.level;
+  }
+
+  incrementLevel() {
+    this.level = this.level + 1;
     return this.level;
   }
 
@@ -34,27 +39,17 @@ export default class Game {
     return this.total;
   }
 
-  setLevel(level) {
-    this.level = level;
-    return this.level;
-  }
-
   isOver() {
     return this.lives < 0;
   }
 
   isFinished() {
-    return this.currentNumberGame === scoreDataConfig.GAMES_COUNT;
+    return this.level === scoreDataConfig.GAMES_COUNT;
   }
 
   reduceLife() {
     this.lives = this.lives - 1;
     return this.lives;
-  }
-
-  incrementCurrentNumberGame() {
-    this.currentNumberGame = this.currentNumberGame + 1;
-    return this.currentNumberGame;
   }
 
   setAnswer(answer) {
@@ -80,5 +75,5 @@ export default class Game {
 Game.defaultConfig = {
   lives: 3,
   timer: 15,
-  firstLevel: `intro`
+  firstGameType: `one`,
 };

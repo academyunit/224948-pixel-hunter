@@ -1,10 +1,11 @@
 import AbstractView from '../abstractView';
+import {levels} from '../data/data';
 
 export default class GameTwoView extends AbstractView {
-  constructor(level, answers) {
+  constructor(level, statsBar) {
     super();
     this.level = level;
-    this.answers = answers;
+    this.statsBar = statsBar;
   }
 
   onAnswer() {
@@ -20,8 +21,8 @@ export default class GameTwoView extends AbstractView {
       if (checkedInputs.length < 2) {
         return;
       }
-      const answer = (checkedInputs[0].value === this.level.questions[0].correctAnswer) &&
-        (checkedInputs[1].value === this.level.questions[1].correctAnswer);
+      const answer = (checkedInputs[0].value === levels[this.level].questions[0].correctAnswer) &&
+        (checkedInputs[1].value === levels[this.level].questions[1].correctAnswer);
       this.onAnswer(answer);
     });
   }
@@ -29,9 +30,9 @@ export default class GameTwoView extends AbstractView {
   get template() {
     return `
       <div class="game">
-        <p class="game__task">${this.level.task}</p>
+        <p class="game__task">${levels[this.level].task}</p>
         <form class="game__content">
-        ${this.level.questions.map((question, i) => `
+        ${levels[this.level].questions.map((question, i) => `
         <div class="game__option">
             <img src=${question.src} alt="Option ${i + 1}" 
                  width=${question.imageWidth} 
@@ -49,7 +50,7 @@ export default class GameTwoView extends AbstractView {
         </form>
         <div class="stats">
           <ul class="stats">
-             ${this.answers}
+             ${this.statsBar}
           </ul>
         </div>
     </div>

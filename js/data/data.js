@@ -42,20 +42,8 @@ export const resultsData = {
   }
 };
 
-export const levels = {
-  intro: {
-    nextScreen: `greeting`
-  },
-
-  greeting: {
-    nextScreen: `rules`
-  },
-
-  rules: {
-    nextScreen: `game1`
-  },
-
-  game1: {
+export const levels = [
+  {
     gameType: `one`,
     task: `Угадай, фото или рисунок?`,
     questions: [
@@ -63,13 +51,12 @@ export const levels = {
         src: `https://i.imgur.com/DiHM5Zb.jpg`,
         imageWidth: 705,
         imageHeight: 455,
-        correctAnswer: `photo`,
+        correctAnswer: `photo`
       }
     ],
     nextScreen: `game2`
   },
-
-  game2: {
+  {
     gameType: `two`,
     task: `Угадайте для каждого изображения фото или рисунок?`,
     questions: [
@@ -88,8 +75,7 @@ export const levels = {
     ],
     nextScreen: `game3`
   },
-
-  game3: {
+  {
     gameType: `three`,
     task: `Найдите рисунок среди изображений`,
     questions: [
@@ -114,8 +100,132 @@ export const levels = {
     ],
     nextScreen: `game1`
   },
-
-  stats: {
+  {
+    gameType: `one`,
+    task: `Угадай, фото или рисунок?`,
+    questions: [
+      {
+        src: `https://i.imgur.com/DiHM5Zb.jpg`,
+        imageWidth: 705,
+        imageHeight: 455,
+        correctAnswer: `photo`
+      }
+    ],
+    nextScreen: `game2`
+  },
+  {
+    gameType: `two`,
+    task: `Угадайте для каждого изображения фото или рисунок?`,
+    questions: [
+      {
+        src: `https://k42.kn3.net/CF42609C8.jpg`,
+        imageWidth: 468,
+        imageHeight: 458,
+        correctAnswer: `paint`
+      },
+      {
+        src: `http://i.imgur.com/1KegWPz.jpg`,
+        imageWidth: 468,
+        imageHeight: 458,
+        correctAnswer: `paint`
+      }
+    ],
+    nextScreen: `game3`
+  },
+  {
+    gameType: `three`,
+    task: `Найдите рисунок среди изображений`,
+    questions: [
+      {
+        src: `http://i.imgur.com/DKR1HtB.jpg`,
+        imageWidth: 304,
+        imageHeight: 455,
+        correctAnswer: `paint`
+      },
+      {
+        src: `https://k42.kn3.net/D2F0370D6.jpg`,
+        imageWidth: 304,
+        imageHeight: 455,
+        correctAnswer: `photo`
+      },
+      {
+        src: `http://i.imgur.com/1KegWPz.jpg`,
+        imageWidth: 304,
+        imageHeight: 455,
+        correctAnswer: `photo`
+      }
+    ],
+    nextScreen: `game1`
+  },
+  {
+    gameType: `one`,
+    task: `Угадай, фото или рисунок?`,
+    questions: [
+      {
+        src: `https://i.imgur.com/DiHM5Zb.jpg`,
+        imageWidth: 705,
+        imageHeight: 455,
+        correctAnswer: `photo`
+      }
+    ],
+    nextScreen: `game2`
+  },
+  {
+    gameType: `two`,
+    task: `Угадайте для каждого изображения фото или рисунок?`,
+    questions: [
+      {
+        src: `https://k42.kn3.net/CF42609C8.jpg`,
+        imageWidth: 468,
+        imageHeight: 458,
+        correctAnswer: `paint`
+      },
+      {
+        src: `http://i.imgur.com/1KegWPz.jpg`,
+        imageWidth: 468,
+        imageHeight: 458,
+        correctAnswer: `paint`
+      }
+    ],
+    nextScreen: `game3`
+  },
+  {
+    gameType: `three`,
+    task: `Найдите рисунок среди изображений`,
+    questions: [
+      {
+        src: `http://i.imgur.com/DKR1HtB.jpg`,
+        imageWidth: 304,
+        imageHeight: 455,
+        correctAnswer: `paint`
+      },
+      {
+        src: `https://k42.kn3.net/D2F0370D6.jpg`,
+        imageWidth: 304,
+        imageHeight: 455,
+        correctAnswer: `photo`
+      },
+      {
+        src: `http://i.imgur.com/1KegWPz.jpg`,
+        imageWidth: 304,
+        imageHeight: 455,
+        correctAnswer: `photo`
+      }
+    ],
+    nextScreen: `game1`
+  },
+  {
+    gameType: `one`,
+    task: `Угадай, фото или рисунок?`,
+    questions: [
+      {
+        src: `https://i.imgur.com/DiHM5Zb.jpg`,
+        imageWidth: 705,
+        imageHeight: 455,
+        correctAnswer: `photo`
+      }
+    ],
+    nextScreen: `game2`
   }
-};
+];
 

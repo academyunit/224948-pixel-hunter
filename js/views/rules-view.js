@@ -1,5 +1,5 @@
 import AbstractView from '../abstractView';
-import {renderNextScreen} from '../app';
+import {initGame} from '../app';
 
 export default class IntroView extends AbstractView {
   constructor() {
@@ -14,7 +14,7 @@ export default class IntroView extends AbstractView {
       nextButton.disabled = input.value === ``;
     }));
 
-    nextButton.addEventListener(`click`, renderNextScreen);
+    nextButton.addEventListener(`click`, initGame);
   }
 
   get template() {

@@ -1,5 +1,5 @@
 import AbstractView from '../abstractView';
-import {renderNextScreen} from '../app';
+import {rulesScreenRender} from '../screens/rules-screen';
 
 export default class GreetingView extends AbstractView {
   constructor() {
@@ -11,7 +11,7 @@ export default class GreetingView extends AbstractView {
 
   bind() {
     const nextButton = this.element.querySelector(`.greeting__continue`);
-    nextButton.addEventListener(`click`, renderNextScreen);
+    nextButton.addEventListener(`click`, rulesScreenRender);
   }
 
   get template() {

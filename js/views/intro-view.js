@@ -1,20 +1,15 @@
 import AbstractView from '../abstractView';
-import {renderNextScreen} from '../app';
+import {greetingScreenRender} from '../screens/greeting-screen';
 
 export default class IntroView extends AbstractView {
   constructor() {
     super();
   }
-  //
-  // bind() {
-  //   const nextButton = this.element.querySelector(`.intro__asterisk`);
-  //   nextButton.addEventListener(`click`, renderNextScreen);
-  // }
 
   bind() {
     this.element.querySelector(`.intro__asterisk`).onclick = (evt) => {
       evt.preventDefault();
-      renderNextScreen();
+      greetingScreenRender();
     };
   }
 

@@ -1,4 +1,5 @@
 import {getDomElementFromTemplate} from './utils/getDomElementFromTemplate';
+
 export default class AbstractView {
   constructor() {
     if (new.target === AbstractView) {

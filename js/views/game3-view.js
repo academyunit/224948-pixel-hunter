@@ -1,10 +1,11 @@
 import AbstractView from '../abstractView';
+import {levels} from '../data/data';
 
 export default class GameThreeView extends AbstractView {
-  constructor(level, answers) {
+  constructor(level, statsBar) {
     super();
     this.level = level;
-    this.answers = answers;
+    this.statsBar = statsBar;
   }
 
   onAnswer() {
@@ -16,7 +17,7 @@ export default class GameThreeView extends AbstractView {
     answers.forEach((answer, i) => {
       answer.addEventListener(`click`, () => {
         finalAnswer.splice(i, 1, `paint`);
-        const isCorrect = this.level.questions.every((question, j) => question.correctAnswer === finalAnswer[j]);
+        const isCorrect = levels[this.level].questions.every((question, j) => question.correctAnswer === finalAnswer[j]);
         this.onAnswer(isCorrect);
       });
     });
@@ -25,9 +26,9 @@ export default class GameThreeView extends AbstractView {
   get template() {
     return `
       <div class="game">
-        <p class="game__task">${this.level.task}</p>
+        <p class="game__task">${levels[this.level].task}</p>
         <form class="game__content  game__content--triple">
-        ${this.level.questions.map((question) => `
+        ${levels[this.level].questions.map((question) => `
           <div class="game__option">
             <img src=${question.src} alt="Option 1" 
                  width=${question.imageWidth} 
@@ -37,7 +38,7 @@ export default class GameThreeView extends AbstractView {
         </form>
         <div class="stats">
           <ul class="stats">
-             ${this.answers}
+            ${this.statsBar}
           </ul>
         </div>
       </div>

@@ -1,3 +1,3 @@
-import {initGame} from './data/game';
+import {introScreenRender} from './screens/intro-screen';
 
-initGame();
+introScreenRender();

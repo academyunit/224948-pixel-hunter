@@ -1,24 +1,25 @@
 // import {assert} from 'chai';
-import {scoreData} from '../data/data';
+import {scoreDataConfig} from '../data/data';
 
 export const getScore = (answers, gameLivesCount) => {
-  if (!answers || answers.length < scoreData.GAMES_COUNT) {
+  if (!answers || answers.length < scoreDataConfig.GAMES_COUNT) {
     return -1;
   }
 
-  let score = gameLivesCount * scoreData.EXTRA_LIVE_POINTS;
+  let score = gameLivesCount * scoreDataConfig.EXTRA_LIVE_POINTS;
 
-  answers.filter((answer) => answer.isCorrect).map((answer) => {
-    score += scoreData.CORRECT_ANSWER_POINTS;
-    if (answer.time > scoreData.FAST_ANSWER_TIME) {
-      score += scoreData.FAST_TIME_POINTS;
-    } else if (answer.time < scoreData.SLOW_ANSWER_TIME) {
-      score += scoreData.SLOW_TIME_POINTS;
+  answers.filter((answer) => answer.answer).map((answer) => {
+    score += scoreDataConfig.CORRECT_ANSWER_POINTS;
+    if (answer.time > scoreDataConfig.FAST_ANSWER_TIME) {
+      score += scoreDataConfig.FAST_TIME_POINTS;
+    } else if (answer.time < scoreDataConfig.SLOW_ANSWER_TIME) {
+      score += scoreDataConfig.SLOW_TIME_POINTS;
     }
   });
   return score;
 };
 
+//
 // suite(`getScore()`, () => {
 //
 //   test(`-1 if get null instead of answers`, () => {

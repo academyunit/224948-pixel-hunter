@@ -1,3 +1,3 @@
-import {introScreenRender} from './screens/intro-screen';
+import Application from './application';
 
-introScreenRender();
+Application.showIntro();

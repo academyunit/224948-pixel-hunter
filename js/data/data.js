@@ -1,11 +1,3 @@
-export const answerTypes = {
-  SLOW: `slow`,
-  FAST: `fast`,
-  CORRECT: `correct`,
-  WRONG: `wrong`,
-  UNKNOWN: `unknow`
-};
-
 export const scoreDataConfig = {
   GAMES_COUNT: 10,
   EXTRA_LIVE_POINTS: 50,
@@ -229,3 +221,4 @@ export const levels = [
   }
 ];
 
+export const answers = [];

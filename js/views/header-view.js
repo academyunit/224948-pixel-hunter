@@ -1,16 +1,21 @@
-import AbstractView from '../abstractView';
-import {greetingScreenRender} from '../screens/greeting-screen';
+import AbstractView from '../abstract-view';
+import Application from '../application';
 
 export default class HeaderView extends AbstractView {
-  constructor(timer, lives) {
+  constructor(state) {
     super();
-    this.timer = timer;
-    this.lives = lives;
+    this.state = state;
   }
 
   bind() {
     const backButton = this.element.querySelector(`.back`);
-    backButton.addEventListener(`click`, greetingScreenRender);
+    backButton.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      Application.showGreeting();
+    });
+  }
+
+  updateTimer() {
   }
 
   get template() {
@@ -22,13 +27,13 @@ export default class HeaderView extends AbstractView {
             <img src="img/logo_small.svg" width="101" height="44">
           </button>
         </div>
-        ${this.timer ?
-    `<h1 class="game__timer">${this.timer}</h1>
+        ${this.state ?
+    `<h1 class="game__timer">${this.state.time}</h1>
      <div class="game__lives">
-    ${new Array(3 - this.lives)
+    ${new Array(3 - this.state.lives)
       .fill(`<img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">`)
       .join(``)}
-    ${new Array(this.lives)
+    ${new Array(this.state.lives)
       .fill(`<img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">`)
       .join(``)}
     </div>` : ``}

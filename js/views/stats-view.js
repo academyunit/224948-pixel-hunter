@@ -1,5 +1,5 @@
-import {answerTypes, resultsData, scoreDataConfig} from '../data/data';
-import AbstractView from '../abstractView';
+import {resultsData, scoreDataConfig} from '../data/data';
+import AbstractView from '../abstract-view';
 
 const resultTemplate = (count, result) => {
   if (count) {
@@ -18,8 +18,8 @@ const resultTemplate = (count, result) => {
 const victoryTemplate = (i, stats, answers, lives, total) => {
 
   const correctAnswersCount = answers.filter((answer) => answer.answer === true).length;
-  const fastAnswersCount = answers.filter((answer) => answer.time > answerTypes.FAST).length;
-  const slowAnswersCount = answers.filter((answer) => answer.time < answerTypes.SLOW).length;
+  const fastAnswersCount = answers.filter((answer) => answer.time > scoreDataConfig.FAST_ANSWER_TIME).length;
+  const slowAnswersCount = answers.filter((answer) => answer.time < scoreDataConfig.SLOW_ANSWER_TIME).length;
 
   return `<h1>${resultsData.victoryTitle}</h1>
           <table class="result__table">

@@ -1,7 +1,7 @@
-import AbstractView from '../abstractView';
-import {initGame} from '../app';
+import AbstractView from '../abstract-view';
+import Application from '../application';
 
-export default class IntroView extends AbstractView {
+export default class RulesView extends AbstractView {
   constructor() {
     super();
   }
@@ -14,7 +14,7 @@ export default class IntroView extends AbstractView {
       nextButton.disabled = input.value === ``;
     }));
 
-    nextButton.addEventListener(`click`, initGame);
+    nextButton.addEventListener(`click`, () => Application.showGame(input.value));
   }
 
   get template() {

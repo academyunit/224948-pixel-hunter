@@ -2,13 +2,10 @@ import AbstractView from '../abstract-view';
 import Application from '../application';
 
 export default class GreetingView extends AbstractView {
-  constructor() {
-    super();
-  }
 
   bind() {
     const nextButton = this.element.querySelector(`.greeting__continue`);
-    nextButton.addEventListener(`click`, Application.showRules);
+    nextButton.addEventListener(`click`, () => Application.showRules());
   }
 
   get template() {

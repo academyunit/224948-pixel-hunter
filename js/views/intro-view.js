@@ -1,17 +1,6 @@
 import AbstractView from '../abstract-view';
-import Application from '../application';
 
 export default class IntroView extends AbstractView {
-  constructor() {
-    super();
-  }
-
-  bind() {
-    this.element.querySelector(`.intro__asterisk`).onclick = (evt) => {
-      evt.preventDefault();
-      Application.showGreeting();
-    };
-  }
 
   get template() {
     return `

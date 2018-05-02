@@ -1,41 +1,34 @@
-import {getScore} from '../utils/score.test';
 import {statsTemplate} from '../utils/stats-template';
-import {answers, levels, scoreDataConfig} from './data';
-import {Timer} from '../utils/timer.test';
-
-const getLevel = (state) => levels[state.level];
-const getType = (state) => levels[state.level].gameType;
+import {answers, scoreDataConfig} from './data';
+import {getScore} from '../utils/score';
+import {Timer} from '../utils/timer';
 
 export default class GameModel {
-  constructor(playerName) {
-    this.playerName = playerName;
-    this.restart();
+  constructor(data, playerName) {
+    this._playerName = playerName;
     this._state = Object.assign({}, INITIAL_STATE);
     this._answers = answers.slice(0);
+    this._questions = Object.assign({}, data);
   }
 
   get state() {
     return this._state;
   }
 
-  getCurrentLevel() {
-    return getLevel(this._state);
+  get level() {
+    return this._questions[`level_${this._state.level}`];
   }
 
-  getCurrentType() {
-    return getType(this._state);
+  get type() {
+    return this.level.type;
   }
 
   updateLevel(level) {
     this._state.level = level;
   }
 
-  restart() {
-    this._state = INITIAL_STATE;
-  }
-
   initTimer() {
-    this.timer = new Timer(30);
+    this.timer = new Timer(INITIAL_STATE.time);
     return this.timer;
   }
 
@@ -49,10 +42,6 @@ export default class GameModel {
 
   setTotal() {
     this.total = getScore(this._answers, this._state.lives);
-    return this.total;
-  }
-
-  getTotal() {
     return this.total;
   }
 
@@ -89,9 +78,8 @@ export default class GameModel {
   }
 }
 
-const INITIAL_STATE = Object.freeze({
+export const INITIAL_STATE = Object.freeze({
   lives: 3,
   time: 30,
   level: 0,
-  gameType: `one`
 });

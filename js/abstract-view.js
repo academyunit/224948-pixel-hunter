@@ -28,8 +28,7 @@ export default class AbstractView {
     return getDomElementFromTemplate(this.template);
   }
 
-  bind() {
-  }
+  bind() {}
 }
 
 

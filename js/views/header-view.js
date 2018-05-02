@@ -1,5 +1,6 @@
 import AbstractView from '../abstract-view';
 import Application from '../application';
+import {INITIAL_STATE} from '../data/game-model';
 
 export default class HeaderView extends AbstractView {
   constructor(state) {
@@ -15,9 +16,6 @@ export default class HeaderView extends AbstractView {
     });
   }
 
-  updateTimer() {
-  }
-
   get template() {
     return `
       <header class="header">
@@ -30,7 +28,7 @@ export default class HeaderView extends AbstractView {
         ${this.state ?
     `<h1 class="game__timer">${this.state.time}</h1>
      <div class="game__lives">
-    ${new Array(3 - this.state.lives)
+    ${new Array(INITIAL_STATE.lives - this.state.lives)
       .fill(`<img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">`)
       .join(``)}
     ${new Array(this.state.lives)

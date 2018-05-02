@@ -6,9 +6,12 @@ import HeaderView from './views/header-view';
 import GameModel from './data/game-model';
 import GameScreen from './game-screen';
 import StatsView from './views/stats-view';
+import ErrorView from './views/error-view';
+import Loader from './loader';
 
 const mainContainer = document.querySelector(`.central`);
 const footer = new FooterView().element;
+let gameData;
 
 export const changeView = (element, header) => {
   mainContainer.innerHTML = ``;
@@ -20,15 +23,24 @@ export const changeView = (element, header) => {
   mainContainer.insertAdjacentElement(`afterEnd`, footer);
 };
 
-
 export default class Application {
+
+  static start() {
+    Application.showIntro();
+    Loader.loadData().
+        then(Application.showGreeting).
+        catch(Application.showError);
+  }
 
   static showIntro() {
     const introView = new IntroView();
     changeView(introView.element);
   }
 
-  static showGreeting() {
+  static showGreeting(data) {
+    if (!gameData) {
+      gameData = JSON.parse(JSON.stringify(data));
+    }
     const greetingView = new GreetingView();
     changeView(greetingView.element);
   }
@@ -40,15 +52,24 @@ export default class Application {
   }
 
   static showGame(playerName) {
-    const model = new GameModel(playerName);
+    const model = new GameModel(gameData, playerName);
     const gameScreen = new GameScreen(model);
     changeView(gameScreen.element);
     gameScreen.startGame();
   }
 
-  static showResults(total, answers, lives, statsBar) {
-    const statsView = new StatsView(total, answers, lives, statsBar);
+  static showResults(results, playerName) {
+    const statsView = new StatsView(results);
     const header = new HeaderView();
     changeView(statsView.element, header.element);
+    Loader.saveResults(results, playerName).
+        then(() => Loader.loadResults(playerName)).
+        then((scores) => statsView.showScores(scores)).
+        catch(Application.showError);
+  }
+
+  static showError(error) {
+    const errorView = new ErrorView(error);
+    changeView(errorView.element);
   }
 }

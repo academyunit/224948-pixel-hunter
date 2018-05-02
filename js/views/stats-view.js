@@ -81,7 +81,7 @@ export default class StatsView extends AbstractView {
   }
 
   showScores(scores) {
-    this.history.innerHTML = scores.slice(0, 1).map((score, i) =>
+    this.history.innerHTML = scores.reverse().slice(1, 3).map((score, i) =>
       score.total > 0
         ? victoryTemplate(score.answers, score.lives, score.statsBar, score.total, i + 2)
         : failTemplate(score.statsBar, i + 2)

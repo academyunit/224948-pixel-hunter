@@ -16,7 +16,7 @@ export default class GameModel {
   }
 
   get level() {
-    return this._questions[`level_${this._state.level}`];
+    return this._questions[this._state.level];
   }
 
   get type() {

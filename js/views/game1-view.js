@@ -7,8 +7,7 @@ export default class GameOneView extends AbstractView {
     this.statsBar = statsBar;
   }
 
-  onAnswer() {
-  }
+  onAnswer() {}
 
   bind() {
     const form = this.element.querySelector(`.game__content`);
@@ -16,7 +15,8 @@ export default class GameOneView extends AbstractView {
       if (evt.target.tagName !== `INPUT`) {
         return;
       }
-      const answer = this.level.questions[0].correctAnswer === evt.target.value;
+      const answer = this.level.answers[0].type === evt.target.value;
+
       this.onAnswer(answer);
     });
   }
@@ -24,18 +24,19 @@ export default class GameOneView extends AbstractView {
   get template() {
     return `
     <div class="game">
-        <p class="game__task">${this.level.task}</p>
+        <p class="game__task">${this.level.question}</p>
         <form class="game__content game__content--wide">
           <div class="game__option">
-            <img src=${this.level.questions[0].src} alt="Option 1"
-                 width=${this.level.questions[0].imageWidth}
-                 height=${this.level.questions[0].imageHeight}>
+            <img src=${this.level.answers[0].image.url} 
+                 alt="Option 1"
+                 width=${this.level.answers[0].image.width}
+                 height=${this.level.answers[0].image.height}>
             <label class="game__answer game__answer--photo game__answer--wide">
               <input name="question1" type="radio" value="photo">
               <span>Фото</span>
             </label>
             <label class="game__answer  game__answer--paint game__answer--wide">
-              <input name="question2" type="radio" value="paint">
+              <input name="question2" type="radio" value="painting">
               <span>Рисунок</span>
             </label>
           </div>

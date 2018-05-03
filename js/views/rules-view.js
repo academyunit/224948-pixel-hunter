@@ -2,9 +2,6 @@ import AbstractView from '../abstract-view';
 import Application from '../application';
 
 export default class RulesView extends AbstractView {
-  constructor() {
-    super();
-  }
 
   bind() {
     const nextButton = this.element.querySelector(`.rules__button`);

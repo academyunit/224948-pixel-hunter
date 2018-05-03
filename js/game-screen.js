@@ -35,7 +35,7 @@ export default class GameScreen {
 
   changeLevel() {
     this.updateHeader();
-    let view = this.getGameView();
+    const view = this.getGameView();
     view.onAnswer = this.onUserAnswer.bind(this);
     this.root.replaceChild(view.element, this.content.element);
     this.content = view;
@@ -45,7 +45,6 @@ export default class GameScreen {
     const header = new HeaderView(this.model.state);
     this.root.replaceChild(header.element, this.header.element);
     this.header = header;
-    this.header.updateTimer(header.element);
   }
 
   onUserAnswer(answer) {
@@ -62,18 +61,18 @@ export default class GameScreen {
     }
   }
 
+  get results() {
+    return {
+      total: this.model.setTotal(),
+      answers: this.model.getAnswers(),
+      lives: this.model.getLives(),
+      statsBar: this.model.getStatsBar()
+    };
+  }
+
   renderNextLevel() {
-    if (this.model.isDead()) {
-      Application.showResults(this.model.getTotal(),
-          this.model.getAnswers(),
-          this.model.getLives(),
-          this.model.getStatsBar());
-    } else if (this.model.isFinished()) {
-      this.model.setTotal();
-      Application.showResults(this.model.getTotal(),
-          this.model.getAnswers(),
-          this.model.getLives(),
-          this.model.getStatsBar());
+    if (this.model.isDead() || this.model.isFinished()) {
+      Application.showResults(this.results);
     } else {
       this.model.updateLevel(this.model.state.level + 1);
       this.startGame();
@@ -82,19 +81,17 @@ export default class GameScreen {
 
   getGameView() {
     let gameView;
-    let gameType = this.model.getCurrentType();
-
-    switch (gameType) {
-      case `one`: {
-        gameView = new GameOneView(this.model.getCurrentLevel(), this.model.getStatsBar());
+    switch (this.model.type) {
+      case `tinder-like`: {
+        gameView = new GameOneView(this.model.level, this.model.getStatsBar());
         break;
       }
-      case `two`: {
-        gameView = new GameTwoView(this.model.getCurrentLevel(), this.model.getStatsBar());
+      case `two-of-two`: {
+        gameView = new GameTwoView(this.model.level, this.model.getStatsBar());
         break;
       }
-      case `three`: {
-        gameView = new GameThreeView(this.model.getCurrentLevel(), this.model.getStatsBar());
+      case `one-of-three`: {
+        gameView = new GameThreeView(this.model.level, this.model.getStatsBar());
         break;
       }
     }

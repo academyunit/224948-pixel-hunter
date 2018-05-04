@@ -41,7 +41,6 @@ export default class GameScreen {
   }
 
   changeView(view) {
-    this.content.unbind();
     this.root.replaceChild(view.element, this.content.element);
     this.content = view;
   }

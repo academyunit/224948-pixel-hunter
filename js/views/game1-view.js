@@ -7,23 +7,18 @@ export default class GameOneView extends AbstractView {
     this.statsBar = statsBar;
   }
 
-  onAnswer() {
-  }
+  onAnswer() {}
 
   bind() {
-    this.form = this.element.querySelector(`.game__content`);
-    this.onAnswerClick = (evt) => {
+    const form = this.element.querySelector(`.game__content`);
+    form.addEventListener(`change`, (evt) => {
       if (evt.target.tagName !== `INPUT`) {
         return;
       }
       const answer = this.level.answers[0].type === evt.target.value;
-      this.onAnswer(answer);
-    };
-    this.form.addEventListener(`change`, (evt) => this.onAnswerClick(evt));
-  }
 
-  unbind() {
-    this.form.removeEventListener(`change`, (evt) => this.onAnswerClick(evt));
+      this.onAnswer(answer);
+    });
   }
 
   get template() {

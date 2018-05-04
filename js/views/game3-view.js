@@ -7,8 +7,7 @@ export default class GameThreeView extends AbstractView {
     this.statsBar = statsBar;
   }
 
-  onAnswer() {
-  }
+  onAnswer() {}
 
   bind() {
     const correctAnswers = this.level.answers;
@@ -19,28 +18,21 @@ export default class GameThreeView extends AbstractView {
       }
     });
 
-    this.answers = this.element.querySelectorAll(`.game__option`);
-    this.onAnswerClick = (i) => {
-      let isCorrect;
-      if (paintingCount === 1) {
-        isCorrect = this.level.answers[i].type === `painting`;
-      } else {
-        isCorrect = this.level.answers[i].type === `photo`;
-      }
+    const answers = this.element.querySelectorAll(`.game__option`);
+    answers.forEach((answer, i) => {
+      answer.addEventListener(`click`, () => {
+        let isCorrect;
+        if (paintingCount === 1) {
+          isCorrect = this.level.answers[i].type === `painting`;
+        } else {
+          isCorrect = this.level.answers[i].type === `photo`;
+        }
 
-      this.onAnswer(isCorrect);
-    };
-
-    this.answers.forEach((answer, i) => {
-      answer.addEventListener(`click`, () => this.onAnswerClick(i));
+        this.onAnswer(isCorrect);
+      });
     });
   }
 
-  unbind() {
-    this.answers.forEach((answer, i) => {
-      answer.removeEventListener(`click`, () => this.onAnswerClick(i));
-    });
-  }
 
   get template() {
     return `

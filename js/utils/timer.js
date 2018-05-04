@@ -14,7 +14,7 @@ export class Timer {
   }
 }
 
-export const alarmTimer = (timerElement) => {
+export const blinkTimer = (timerElement) => {
   const timer = timerElement.querySelector(`.game__timer`);
   const value = parseInt(timer.textContent, 10);
   if (value <= scoreDataConfig.ALARM_TIME) {

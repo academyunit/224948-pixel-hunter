@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import IntroView from './views/intro-view';
 import FooterView from './views/footer-view';
 import GreetingView from './views/greeting-view';
@@ -57,13 +56,6 @@ export default class Application {
     const gameScreen = new GameScreen(model);
     changeView(gameScreen.element);
     gameScreen.startGame();
-  }
-
-  static showConfirm() {
-    let isExit = confirm(`Вы уверены, что хотите выйти? Текущая игра будет сброшена.`);
-    if (isExit) {
-      Application.start();
-    }
   }
 
   static showResults(results, playerName) {

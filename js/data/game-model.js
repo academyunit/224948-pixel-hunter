@@ -1,7 +1,7 @@
 import {statsTemplate} from '../utils/stats-template';
 import {answers, dataConfig} from './data';
 import {getScore} from '../utils/score';
-import {alarmTimer, Timer} from '../utils/timer';
+import {blinkTimer, Timer} from '../utils/timer';
 
 export default class GameModel {
   constructor(data) {
@@ -31,8 +31,8 @@ export default class GameModel {
     return this.timer;
   }
 
-  static alarmTimer(element) {
-    alarmTimer(element);
+  alarmTimer(element) {
+    blinkTimer(element);
   }
 
   tick() {

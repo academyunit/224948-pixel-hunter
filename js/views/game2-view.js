@@ -7,12 +7,12 @@ export default class GameTwoView extends AbstractView {
     this.statsBar = statsBar;
   }
 
-  onAnswer() {
-  }
+  onAnswer() {}
 
   bind() {
-    this.form = this.element.querySelector(`.game__content`);
-    this.onAnswerClick = (evt) => {
+    const form = this.element.querySelector(`.game__content`);
+
+    form.addEventListener(`change`, (evt) => {
       let checkedInputs;
       if (evt.target.tagName === `INPUT`) {
         checkedInputs = Array.from(evt.currentTarget).filter((element) => element.checked);
@@ -23,13 +23,7 @@ export default class GameTwoView extends AbstractView {
       const answer = (checkedInputs[0].value === this.level.answers[0].type) &&
         (checkedInputs[1].value === this.level.answers[1].type);
       this.onAnswer(answer);
-    };
-
-    this.form.addEventListener(`change`, (evt) => this.onAnswerClick(evt));
-  }
-
-  unbind() {
-    this.form.removeEventListener(`change`, (evt) => this.onAnswerClick(evt));
+    });
   }
 
   get template() {

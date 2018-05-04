@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import AbstractView from '../abstract-view';
 import Application from '../application';
 import {INITIAL_STATE} from '../data/game-model';
@@ -9,20 +10,13 @@ export default class HeaderView extends AbstractView {
   }
 
   bind() {
-    this.backButton = this.element.querySelector(`.back`);
-    this.backButton.addEventListener(`click`, () => {
+    const backButton = this.element.querySelector(`.back`);
+    backButton.addEventListener(`click`, () => {
       if (this.state) {
-        Application.showConfirm();
-      } else {
-        Application.start();
-      }
-    });
-  }
-
-  unbind() {
-    this.backButton.removeEventListener(`click`, () => {
-      if (this.state) {
-        Application.showConfirm();
+        let isExit = confirm(`Вы уверены, что хотите выйти? Текущая игра будет сброшена.`);
+        if (isExit) {
+          Application.start();
+        }
       } else {
         Application.start();
       }
@@ -53,6 +47,5 @@ export default class HeaderView extends AbstractView {
     `;
   }
 
-  updateTimer() {
-  }
+  updateTimer() {}
 }

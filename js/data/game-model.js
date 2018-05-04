@@ -1,11 +1,10 @@
 import {statsTemplate} from '../utils/stats-template';
-import {answers, scoreDataConfig} from './data';
+import {answers, dataConfig} from './data';
 import {getScore} from '../utils/score';
-import {Timer} from '../utils/timer';
+import {alarmTimer, Timer} from '../utils/timer';
 
 export default class GameModel {
-  constructor(data, playerName) {
-    this._playerName = playerName;
+  constructor(data) {
     this._state = Object.assign({}, INITIAL_STATE);
     this._answers = answers.slice(0);
     this._questions = Object.assign({}, data);
@@ -32,6 +31,10 @@ export default class GameModel {
     return this.timer;
   }
 
+  static alarmTimer(element) {
+    alarmTimer(element);
+  }
+
   tick() {
     this._state.time = this.timer.tick();
   }
@@ -50,7 +53,7 @@ export default class GameModel {
   }
 
   isFinished() {
-    return this._state.level === scoreDataConfig.GAMES_COUNT - 1;
+    return this._state.level === dataConfig.GAMES_COUNT - 1;
   }
 
   reduceLives() {
@@ -80,6 +83,6 @@ export default class GameModel {
 
 export const INITIAL_STATE = Object.freeze({
   lives: 3,
-  time: 30,
+  time: dataConfig.GAME_TIME,
   level: 0,
 });

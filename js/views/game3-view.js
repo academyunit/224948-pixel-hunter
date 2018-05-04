@@ -19,18 +19,26 @@ export default class GameThreeView extends AbstractView {
       }
     });
 
-    const answers = this.element.querySelectorAll(`.game__option`);
-    answers.forEach((answer, i) => {
-      answer.addEventListener(`click`, () => {
-        let isCorrect;
-        if (paintingCount === 1) {
-          isCorrect = this.level.answers[i].type === `painting`;
-        } else {
-          isCorrect = this.level.answers[i].type === `photo`;
-        }
+    this.answers = this.element.querySelectorAll(`.game__option`);
+    this.onAnswerClick = (i) => {
+      let isCorrect;
+      if (paintingCount === 1) {
+        isCorrect = this.level.answers[i].type === `painting`;
+      } else {
+        isCorrect = this.level.answers[i].type === `photo`;
+      }
 
-        this.onAnswer(isCorrect);
-      });
+      this.onAnswer(isCorrect);
+    };
+
+    this.answers.forEach((answer, i) => {
+      answer.addEventListener(`click`, () => this.onAnswerClick(i));
+    });
+  }
+
+  unbind() {
+    this.answers.forEach((answer, i) => {
+      answer.removeEventListener(`click`, () => this.onAnswerClick(i));
     });
   }
 

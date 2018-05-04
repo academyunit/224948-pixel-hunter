@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import IntroView from './views/intro-view';
 import FooterView from './views/footer-view';
 import GreetingView from './views/greeting-view';
@@ -27,9 +28,9 @@ export default class Application {
 
   static start() {
     Application.showIntro();
-    Loader.loadData().
-        then(Application.showGreeting).
-        catch(Application.showError);
+    Loader.loadData()
+        .then((data) => Application.showGreeting(data))
+        .catch(Application.showError);
   }
 
   static showIntro() {
@@ -41,7 +42,7 @@ export default class Application {
     if (!gameData) {
       gameData = JSON.parse(JSON.stringify(data));
     }
-    const greetingView = new GreetingView();
+    const greetingView = new GreetingView(data);
     changeView(greetingView.element);
   }
 
@@ -51,21 +52,28 @@ export default class Application {
     changeView(rulesView.element, header.element);
   }
 
-  static showGame(playerName) {
-    const model = new GameModel(gameData, playerName);
+  static showGame() {
+    const model = new GameModel(gameData);
     const gameScreen = new GameScreen(model);
     changeView(gameScreen.element);
     gameScreen.startGame();
+  }
+
+  static showConfirm() {
+    let isExit = confirm(`Вы уверены, что хотите выйти? Текущая игра будет сброшена.`);
+    if (isExit) {
+      Application.start();
+    }
   }
 
   static showResults(results, playerName) {
     const statsView = new StatsView(results);
     const header = new HeaderView();
     changeView(statsView.element, header.element);
-    Loader.saveResults(results, playerName).
-        then(() => Loader.loadResults(playerName)).
-        then((scores) => statsView.showScores(scores)).
-        catch(Application.showError);
+    Loader.saveResults(results, playerName)
+        .then(() => Loader.loadResults(playerName))
+        .then((scores) => statsView.showScores(scores))
+        .catch(Application.showError);
   }
 
   static showError(error) {

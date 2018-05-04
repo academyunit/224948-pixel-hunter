@@ -4,14 +4,19 @@ import Application from '../application';
 export default class RulesView extends AbstractView {
 
   bind() {
-    const nextButton = this.element.querySelector(`.rules__button`);
-    const input = this.element.querySelector(`.rules__input`);
+    this.nextButton = this.element.querySelector(`.rules__button`);
+    this.input = this.element.querySelector(`.rules__input`);
+    this.getButtonState = () => {
+      this.nextButton.disabled = this.input.value === ``;
+    };
 
-    input.addEventListener(`keyup`, (() => {
-      nextButton.disabled = input.value === ``;
-    }));
+    this.input.addEventListener(`keyup`, () => this.getButtonState());
+    this.nextButton.addEventListener(`click`, () => Application.showGame());
+  }
 
-    nextButton.addEventListener(`click`, () => Application.showGame(input.value));
+  unbind() {
+    this.input.removeEventListener(`keyup`, () => this.getButtonState());
+    this.nextButton.removeEventListener(`click`, () => Application.showGame());
   }
 
   get template() {

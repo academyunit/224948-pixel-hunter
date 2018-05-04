@@ -4,8 +4,12 @@ import Application from '../application';
 export default class GreetingView extends AbstractView {
 
   bind() {
-    const nextButton = this.element.querySelector(`.greeting__continue`);
-    nextButton.addEventListener(`click`, () => Application.showRules());
+    this.nextButton = this.element.querySelector(`.greeting__continue`);
+    this.nextButton.addEventListener(`click`, () => Application.showRules());
+  }
+
+  unbind() {
+    this.nextButton.removeEventListener(`click`, () => Application.showRules());
   }
 
   get template() {

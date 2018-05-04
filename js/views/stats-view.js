@@ -1,4 +1,4 @@
-import {resultsData, scoreDataConfig} from '../data/data';
+import {resultsData, dataConfig} from '../data/data';
 import AbstractView from '../abstract-view';
 
 const resultTemplate = (count, result) => {
@@ -19,8 +19,8 @@ const resultTemplate = (count, result) => {
 
 const victoryTemplate = (answers, lives, statsBar, total, i) => {
   const correctAnswersCount = answers.filter((answer) => answer.answer === true).length;
-  const fastAnswersCount = answers.filter((answer) => answer.time > scoreDataConfig.FAST_ANSWER_TIME).length;
-  const slowAnswersCount = answers.filter((answer) => answer.time < scoreDataConfig.SLOW_ANSWER_TIME).length;
+  const fastAnswersCount = answers.filter((answer) => answer.time > dataConfig.FAST_ANSWER_TIME).length;
+  const slowAnswersCount = answers.filter((answer) => answer.time < dataConfig.SLOW_ANSWER_TIME).length;
 
   return `
       <table class="result__table">
@@ -29,8 +29,8 @@ const victoryTemplate = (answers, lives, statsBar, total, i) => {
           <td colspan="2">
             ${statsBar}
           </td>
-          <td class="result__points">×&nbsp;${scoreDataConfig.CORRECT_ANSWER_POINTS}</td>
-          <td class="result__total">${correctAnswersCount * scoreDataConfig.CORRECT_ANSWER_POINTS}</td>
+          <td class="result__points">×&nbsp;${dataConfig.CORRECT_ANSWER_POINTS}</td>
+          <td class="result__total">${correctAnswersCount * dataConfig.CORRECT_ANSWER_POINTS}</td>
         </tr>
         
         ${resultTemplate(lives, resultsData.livesResults)}

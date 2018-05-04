@@ -37,6 +37,11 @@ export default class GameScreen {
     this.updateHeader();
     const view = this.getGameView();
     view.onAnswer = this.onUserAnswer.bind(this);
+    this.changeView(view);
+  }
+
+  changeView(view) {
+    this.content.unbind();
     this.root.replaceChild(view.element, this.content.element);
     this.content = view;
   }
@@ -45,6 +50,8 @@ export default class GameScreen {
     const header = new HeaderView(this.model.state);
     this.root.replaceChild(header.element, this.header.element);
     this.header = header;
+    this.header.updateTimer = this.model.alarmTimer;
+    this.header.updateTimer(header.element);
   }
 
   onUserAnswer(answer) {

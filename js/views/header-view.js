@@ -9,10 +9,23 @@ export default class HeaderView extends AbstractView {
   }
 
   bind() {
-    const backButton = this.element.querySelector(`.back`);
-    backButton.addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-      Application.showGreeting();
+    this.backButton = this.element.querySelector(`.back`);
+    this.backButton.addEventListener(`click`, () => {
+      if (this.state) {
+        Application.showConfirm();
+      } else {
+        Application.start();
+      }
+    });
+  }
+
+  unbind() {
+    this.backButton.removeEventListener(`click`, () => {
+      if (this.state) {
+        Application.showConfirm();
+      } else {
+        Application.start();
+      }
     });
   }
 
@@ -25,17 +38,21 @@ export default class HeaderView extends AbstractView {
             <img src="img/logo_small.svg" width="101" height="44">
           </button>
         </div>
-        ${this.state ?
-    `<h1 class="game__timer">${this.state.time}</h1>
+        ${this.state
+    ? `<h1 class="game__timer">${this.state.time}</h1>
      <div class="game__lives">
-    ${new Array(INITIAL_STATE.lives - this.state.lives)
+       ${new Array(INITIAL_STATE.lives - this.state.lives)
       .fill(`<img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">`)
       .join(``)}
-    ${new Array(this.state.lives)
+      ${new Array(this.state.lives)
       .fill(`<img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">`)
       .join(``)}
-    </div>` : ``}
+     </div>`
+    : ``}
       </header>
     `;
+  }
+
+  updateTimer() {
   }
 }

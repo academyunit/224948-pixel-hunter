@@ -1,4 +1,4 @@
-import {scoreDataConfig} from '../data/data';
+import {dataConfig} from '../data/data';
 
 export const statsTemplate = (answers) => {
   let resultsArray = [];
@@ -6,16 +6,16 @@ export const statsTemplate = (answers) => {
   answers.forEach(({answer, time}) => {
     if (!answer) {
       resultsArray.push(`<li class="stats__result stats__result--wrong"></li>`);
-    } else if (time > scoreDataConfig.FAST_ANSWER_TIME) {
+    } else if (time > dataConfig.FAST_ANSWER_TIME) {
       resultsArray.push(`<li class="stats__result stats__result--fast"></li>`);
-    } else if (time < scoreDataConfig.SLOW_ANSWER_TIME) {
+    } else if (time < dataConfig.SLOW_ANSWER_TIME) {
       resultsArray.push(`<li class="stats__result stats__result--slow"></li>`);
     } else {
       resultsArray.push(`<li class="stats__result stats__result--correct"></li>`);
     }
   });
 
-  while (resultsArray.length < scoreDataConfig.GAMES_COUNT) {
+  while (resultsArray.length < dataConfig.GAMES_COUNT) {
     resultsArray.push(`<li class="stats__result stats__result--unknown"></li>`);
   }
 
